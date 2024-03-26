@@ -17,4 +17,46 @@ model User {
   hash String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  posts Post[]
+  likedPosts UserLikedPost[]
+}
+
+model Post {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  thmbl_image String?
+  image String?
+  description String
+  level String
+  ingredients String[]
+  category String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  id_user String   @db.ObjectId
+  user  User @relation(fields: [id_user], references: [id])
+  likedPosts UserLikedPost[]
+}
+
+model UserLikedPost {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id_user String   @db.ObjectId
+  id_post String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [id_user], references: [id])
+  post Post @relation(fields: [id_post], references: [id])
+}
+
+model Ingredient {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
